@@ -1,7 +1,8 @@
 module.exports = {
-    'host': 'localhost',
-    'port': 443,
-    'baseUrl': '/wiki',
-    'username': 'u',
-    'password': 'p'
+    'baseUrl': 'https://localhost/wiki/',
+    'auth': {
+      'user': 'u',
+      'pass': 'p',
+      'sendImmediately': false
+    }
 };
