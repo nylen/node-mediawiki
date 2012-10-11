@@ -29,7 +29,7 @@ wiki.listPages(function(title) {
     var filename = title.replace(/[^a-z0-9 #.-]/gi, '_') + '.wiki';
     titleToFileMap[title] = filename;
     numTitles++;
-    wiki.getPageMarkup(title, function(data) {
+    wiki.getPageContent(title, function(data) {
         filename = path.join(dir, filename);
         fs.writeFileSync(filename, data);
         console.log(util.format(

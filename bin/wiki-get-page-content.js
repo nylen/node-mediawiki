@@ -10,6 +10,6 @@ if (!title) {
         'No page title given.  Usage: %s page-title', process.argv[1]));
 }
 
-wiki.getPageMarkup(title, function(data) {
+wiki.getPageContent(title, function(data) {
     process.stdout.write(data);
 });

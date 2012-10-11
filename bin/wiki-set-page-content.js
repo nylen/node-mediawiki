@@ -8,13 +8,13 @@ var fs = require('fs'),
 var title = process.argv[2],
     fn = process.argv[3];
 
-var edit = function(text) {
-    wiki.editPage(title, text,
+var setPageContent = function(text) {
+    wiki.setPageContent(title, text,
         'Edited with ' + path.basename(process.argv[1]), console.error);
 };
 
 if (fn) {
-    edit(fs.readFileSync(fn));
+    setPageContent(fs.readFileSync(fn, 'utf8'));
 } else {
     var text = '';
     process.stdin.resume();
@@ -23,6 +23,6 @@ if (fn) {
     }).on('error', function(error) {
         throw new Error('Error reading stdin: ' + error);
     }).on('end', function() {
-        edit(text);
+        setPageContent(text);
     });
 }
