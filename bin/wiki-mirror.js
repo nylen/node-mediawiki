@@ -26,7 +26,7 @@ var gotAllTitles = false;
 var numPages = 0;
 
 wiki.listPages(function(title) {
-    var filename = title.replace(/[^a-z0-9 #.-]/gi, '_') + '.wiki';
+    var filename = wiki.pageTitleToFilename(title);
     titleToFileMap[title] = filename;
     numTitles++;
     wiki.getPageContent(title, function(data) {
