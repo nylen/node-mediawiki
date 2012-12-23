@@ -14,7 +14,7 @@ if (!dir) {
 
 try {
     var stat = fs.statSync(dir);
-} catch (_) { }
+} catch (ex) { }
 
 if (!stat || !stat.isDirectory()) {
     fs.mkdirSync(dir);
@@ -37,7 +37,7 @@ wiki.listPages(function(title) {
         numPages++;
 
         if (gotAllTitles && numTitles == numPages) {
-            var mapFilename = path.join(dir, '_page_files.js');
+            var mapFilename = path.join(dir, 'wiki_pages.json');
             fs.writeFileSync(mapFilename, JSON.stringify(titleToFileMap, null, 4) + "\n");
             console.log(util.format(
                 "Wrote page titles and filenames to '%s'", mapFilename));
