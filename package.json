@@ -1,0 +1,11 @@
+{
+    "name": "mediawiki-scripts",
+    "description": "Scripts for managing a MediaWiki instance.",
+    "version": "0.0.1",
+    "dependencies": {
+        "fs-extra"   : "~0.4.0",
+        "qs"         : "~0.5.3",
+        "underscore" : "~1.4.4",
+        "pipette"    : "~0.9.1"
+    }
+}
