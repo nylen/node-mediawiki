@@ -24,6 +24,8 @@ if (!editor) {
         'No external editor defined.  Set one in the config file or via $EDITOR.');
 }
 
+temp.track();
+
 temp.mkdir('wiki-edit-', function(err, tmpDir) {
     if (err) {
         throw err;
@@ -50,8 +52,6 @@ temp.mkdir('wiki-edit-', function(err, tmpDir) {
                     lib.setPageContent(pageTitle, newContent, console.error);
                 }
             }
-
-            fs.unlinkSync(tmpFilename);
         });
     });
 });
