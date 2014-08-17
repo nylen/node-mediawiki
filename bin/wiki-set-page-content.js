@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-var fs = require('fs'),
-    path = require('path'),
+var fs      = require('fs'),
+    path    = require('path'),
     pipette = require('pipette'),
-    wiki = require('../lib/wiki');
+    wiki    = require('../lib/wiki');
 
 var title = process.argv[2],
     fn = process.argv[3];
