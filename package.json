@@ -1,8 +1,24 @@
 {
     "name"        : "mediawiki-scripts",
+    "author"      : "James Nylen <jnylen@gmail.com>",
     "description" : "Scripts for managing a MediaWiki instance.",
     "version"     : "0.0.1",
-    "bin"         : {
+    "repository"  : {
+        "type" : "git",
+        "url"  : "https://github.com/nylen/node-mediawiki"
+    },
+    "bugs" : {
+        "url" : "https://github.com/nylen/node-mediawiki/issues"
+    },
+    "license"  : "MIT",
+    "keywords" : [
+        "mediawiki",
+        "wiki",
+        "api",
+        "wikipedia"
+    ],
+    "main" : "lib/index.js",
+    "bin"  : {
         "wiki-edit-page"        : "bin/wiki-edit-page.js",
         "wiki-get-page-content" : "bin/wiki-get-page-content.js",
         "wiki-list-pages"       : "bin/wiki-list-pages.js",
