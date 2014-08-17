@@ -4,9 +4,19 @@ var cp   = require('child_process'),
     fs   = require('fs'),
     lib  = require('../lib'),
     path = require('path'),
-    temp = require('temp');
+    temp = require('temp'),
+    util = require('util');
 
-var pageTitle = process.argv[2];
+var wiki      = process.argv[2],
+    pageTitle = process.argv[3];
+
+if (!wiki || !pageTitle) {
+    throw new Error(util.format(
+        'Usage: %s wiki-name-or-url page-title',
+        process.argv[1]));
+}
+
+lib.setWiki(wiki);
 
 var editor = lib.config.editor || process.env.EDITOR;
 
