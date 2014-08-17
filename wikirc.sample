@@ -1,0 +1,17 @@
+# Copy this file to ~/.wikirc
+
+[en]
+baseUrl = http://en.wikipedia.org/w/
+
+[es]
+baseUrl = http://es.wikipedia.org/w/
+
+[commons]
+baseUrl = http://commons.wikimedia.org/w/
+
+[mywiki]
+baseUrl = https://my.private/wiki/
+username = me
+password = mypassword
+[mywiki.request]
+rejectUnauthorized = false
