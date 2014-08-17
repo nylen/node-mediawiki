@@ -2,13 +2,13 @@
 
 var cp   = require('child_process'),
     fs   = require('fs'),
+    lib  = require('../lib'),
     path = require('path'),
-    temp = require('temp'),
-    wiki = require('../lib/wiki');
+    temp = require('temp');
 
 var pageTitle = process.argv[2];
 
-var editor = wiki.config.editor || process.env.EDITOR;
+var editor = lib.config.editor || process.env.EDITOR;
 
 if (!editor) {
     throw new Error(
@@ -20,9 +20,9 @@ temp.mkdir('wiki-edit-', function(err, tmpDir) {
         throw err;
     }
 
-    var tmpFilename = path.join(tmpDir, wiki.pageTitleToFilename(pageTitle));
+    var tmpFilename = path.join(tmpDir, lib.pageTitleToFilename(pageTitle));
 
-    wiki.getPageContent(pageTitle, function(oldContent) {
+    lib.getPageContent(pageTitle, function(oldContent) {
         fs.writeFileSync(tmpFilename, oldContent);
 
         process.stdin.setRawMode(true);
@@ -38,7 +38,7 @@ temp.mkdir('wiki-edit-', function(err, tmpDir) {
                 if (oldContent == newContent) {
                     console.error('Page content was not changed.');
                 } else {
-                    wiki.setPageContent(pageTitle, newContent, console.error);
+                    lib.setPageContent(pageTitle, newContent, console.error);
                 }
             }
 

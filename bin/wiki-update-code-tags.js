@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 var async = require('async'),
-    wiki  = require('../lib/wiki');
+    lib   = require('../lib');
 
 async.eachSeries(process.argv.slice(2), function(title, cb) {
-    wiki.getPageContent(title, function(oldContent) {
+    lib.getPageContent(title, function(oldContent) {
         var arr = oldContent.split('`');
         var newContent = '';
         for (var i = 0; i < arr.length; i++) {
@@ -18,7 +18,7 @@ async.eachSeries(process.argv.slice(2), function(title, cb) {
             console.error('Page content was not changed.');
             cb();
         } else {
-            wiki.setPageContent(title, newContent, function(data) {
+            lib.setPageContent(title, newContent, function(data) {
                 console.log(data);
                 cb();
             });

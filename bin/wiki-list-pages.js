@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-var wiki = require('../lib/wiki');
+var lib = require('../lib');
 
-wiki.listPages(function(title) {
+lib.listPages(function(title) {
     console.log(title);
 });

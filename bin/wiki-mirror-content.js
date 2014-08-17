@@ -3,9 +3,9 @@
 var async  = require('async'),
     events = require('events'),
     fs     = require('fs-extra'),
+    lib    = require('../lib'),
     path   = require('path'),
-    util   = require('util'),
-    wiki   = require('../lib/wiki');
+    util   = require('util');
 
 fs.jsonfile.spaces = 4;
 
@@ -25,8 +25,8 @@ var titleToFileMap = {},
     numPages = 0;
 
 function writePage(title, cb) {
-    wiki.getPageContent(title, function(data) {
-        var filename = path.join(mirrorDir, wiki.pageTitleToFilename(title));
+    lib.getPageContent(title, function(data) {
+        var filename = path.join(mirrorDir, lib.pageTitleToFilename(title));
         titleToFileMap[title] = filename;
 
         fs.writeFile(filename, data, function(err) {
@@ -46,7 +46,7 @@ var queue = async.queue(writePage, 10);
 
 events.EventEmitter.defaultMaxListeners = 50; // only works in Node >=v0.11.2
 
-wiki.listPages(function(title) {
+lib.listPages(function(title) {
     numTitles++;
     queue.push(title);
 }, function() {

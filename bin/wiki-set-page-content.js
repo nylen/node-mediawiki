@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 
 var fs      = require('fs'),
+    lib     = require('../lib'),
     path    = require('path'),
-    pipette = require('pipette'),
-    wiki    = require('../lib/wiki');
+    pipette = require('pipette');
 
 var title = process.argv[2],
     fn = process.argv[3];
 
 var setPageContent = function(text) {
-    wiki.setPageContent(title, text,
+    lib.setPageContent(title, text,
         'Edited with ' + path.basename(process.argv[1]), console.error);
 };
 
