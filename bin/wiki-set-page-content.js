@@ -10,9 +10,9 @@ var wiki      = process.argv[2],
     fn        = process.argv[4];
 
 if (!wiki || !pageTitle) {
-    throw new Error(util.format(
+    lib.error(
         'Usage: %s wiki-name-or-url page-title [filename]',
-        process.argv[1]));
+        process.argv[1]);
 }
 
 lib.setWiki(wiki);

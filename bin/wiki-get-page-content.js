@@ -1,15 +1,14 @@
 #!/usr/bin/env node
 
-var lib  = require('../lib'),
-    util = require('util');
+var lib = require('../lib');
 
 var wiki      = process.argv[2],
     pageTitle = process.argv[3];
 
 if (!wiki || !pageTitle) {
-    throw new Error(util.format(
+    lib.error(
         'Usage: %s wiki-name-or-url page-title',
-        process.argv[1]));
+        process.argv[1]);
 }
 
 lib.setWiki(wiki);

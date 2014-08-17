@@ -7,9 +7,9 @@ var wiki      = process.argv[2],
     filenames = process.argv.slice(3);
 
 if (!wiki || !filenames.length) {
-    throw new Error(util.format(
+    lib.error(
         'Usage: %s wiki-name-or-url page-title [page-title [...]]',
-        process.argv[1]));
+        process.argv[1]);
 }
 
 lib.setWiki(wiki);

@@ -4,8 +4,7 @@ var async  = require('async'),
     events = require('events'),
     fs     = require('fs-extra'),
     lib    = require('../lib'),
-    path   = require('path'),
-    util   = require('util');
+    path   = require('path');
 
 fs.jsonfile.spaces = 4;
 
@@ -13,9 +12,9 @@ var wiki      = process.argv[2],
     mirrorDir = process.argv[3];
 
 if (!wiki || !mirrorDir) {
-    throw new Error(util.format(
+    lib.error(
         'Usage: %s wiki-name-or-url mirror-directory',
-        process.argv[1]));
+        process.argv[1]);
 }
 
 lib.setWiki(wiki);
@@ -38,8 +37,9 @@ function writePage(title, cb) {
                 return;
             }
 
-            console.log(util.format(
-                "Wrote page '%s' to file '%s'", title, filename));
+            console.log(
+                "Wrote page '%s' to file '%s'",
+                title, filename);
             cb(null);
         });
     });
@@ -57,8 +57,9 @@ lib.listPages(function(title) {
         var mapFilename = path.join(mirrorDir, 'wiki_pages.json');
         fs.writeJSONFile(mapFilename, titleToFileMap, function(err) {
             if (err) throw err;
-            console.log(util.format(
-                "Wrote page titles and filenames to '%s'", mapFilename));
+            console.log(
+                "Wrote page titles and filenames to '%s'",
+                mapFilename);
         });
     };
 });
