@@ -1,7 +1,15 @@
 {
-    "name"         : "mediawiki-scripts",
-    "description"  : "Scripts for managing a MediaWiki instance.",
-    "version"      : "0.0.1",
+    "name"        : "mediawiki-scripts",
+    "description" : "Scripts for managing a MediaWiki instance.",
+    "version"     : "0.0.1",
+    "bin"         : {
+        "wiki-edit-page"        : "bin/wiki-edit-page.js",
+        "wiki-get-page-content" : "bin/wiki-get-page-content.js",
+        "wiki-list-pages"       : "bin/wiki-list-pages.js",
+        "wiki-mirror-content"   : "bin/wiki-mirror-content.js",
+        "wiki-set-page-content" : "bin/wiki-set-page-content.js",
+        "wiki-update-code-tags" : "bin/wiki-update-code-tags.js"
+    },
     "dependencies" : {
         "async"       : "~0.2.10",
         "fs-extra"    : "~0.4.0",
