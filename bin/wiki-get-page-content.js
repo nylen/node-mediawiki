@@ -3,13 +3,17 @@
 var lib  = require('../lib'),
     util = require('util');
 
-var title = process.argv[2];
+var wiki      = process.argv[2],
+    pageTitle = process.argv[3];
 
-if (!title) {
+if (!wiki || !pageTitle) {
     throw new Error(util.format(
-        'No page title given.  Usage: %s page-title', process.argv[1]));
+        'Usage: %s wiki-name-or-url page-title',
+        process.argv[1]));
 }
 
-lib.getPageContent(title, function(data) {
+lib.setWiki(wiki);
+
+lib.getPageContent(pageTitle, function(data) {
     process.stdout.write(data);
 });

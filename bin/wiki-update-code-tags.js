@@ -3,7 +3,18 @@
 var async = require('async'),
     lib   = require('../lib');
 
-async.eachSeries(process.argv.slice(2), function(title, cb) {
+var wiki      = process.argv[2],
+    filenames = process.argv.slice(3);
+
+if (!wiki || !filenames.length) {
+    throw new Error(util.format(
+        'Usage: %s wiki-name-or-url page-title [page-title [...]]',
+        process.argv[1]));
+}
+
+lib.setWiki(wiki);
+
+async.eachSeries(filenames, function(title, cb) {
     lib.getPageContent(title, function(oldContent) {
         var arr = oldContent.split('`');
         var newContent = '';

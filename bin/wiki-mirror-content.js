@@ -9,13 +9,16 @@ var async  = require('async'),
 
 fs.jsonfile.spaces = 4;
 
-var mirrorDir = process.argv[2];
+var wiki      = process.argv[2],
+    mirrorDir = process.argv[3];
 
-if (!mirrorDir) {
+if (!wiki || !mirrorDir) {
     throw new Error(util.format(
-        'No mirror directory given.  Usage: %s mirror-directory',
+        'Usage: %s wiki-name-or-url mirror-directory',
         process.argv[1]));
 }
+
+lib.setWiki(wiki);
 
 fs.mkdirpSync(mirrorDir);
 
