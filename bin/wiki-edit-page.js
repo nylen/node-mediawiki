@@ -1,26 +1,28 @@
 #!/usr/bin/env node
 
-var cp   = require('child_process'),
-    fs   = require('fs'),
-    lib  = require('../lib'),
-    path = require('path'),
-    temp = require('temp');
+var cp        = require('child_process'),
+    fs        = require('fs'),
+    MediaWiki = require('../lib'),
+    path      = require('path'),
+    temp      = require('temp'),
+    utils     = require('../lib/utils');
 
-var wiki      = process.argv[2],
+var wikiName  = process.argv[2],
     pageTitle = process.argv[3];
 
-if (!wiki || !pageTitle) {
-    lib.error(
-        'Usage: %s wiki-name-or-url page-title',
+if (!wikiName || !pageTitle) {
+    utils.fatalError(
+        'Usage: %s wikiName-name-or-url page-title',
         process.argv[1]);
 }
 
-lib.setWiki(wiki);
+var wiki = new MediaWiki(wikiName);
+utils.setDefaultHandlers(wiki);
 
-var editor = lib.config.editor || process.env.EDITOR;
+var editor = wiki.config.editor || process.env.EDITOR;
 
 if (!editor) {
-    lib.error(
+    utils.fatalError(
         'No external editor defined.  Set one in the config file or via $EDITOR.');
 }
 
@@ -31,14 +33,14 @@ temp.mkdir('wiki-edit-', function(err, tmpDir) {
         throw err;
     }
 
-    var tmpFilename = path.join(tmpDir, lib.pageTitleToFilename(pageTitle));
+    var tmpFilename = path.join(tmpDir, wiki.pageTitleToFilename(pageTitle));
 
-    lib.getPageContent(pageTitle, function(oldContent) {
+    wiki.getPageContent(pageTitle, function(oldContent) {
         fs.writeFileSync(tmpFilename, oldContent);
 
         process.stdin.setRawMode(true);
         cp.spawn(editor, [tmpFilename], {
-            stdio: 'inherit'
+            stdio : 'inherit'
         }).on('exit', function(code) {
             process.stdin.setRawMode(false);
 
@@ -49,7 +51,7 @@ temp.mkdir('wiki-edit-', function(err, tmpDir) {
                 if (oldContent == newContent) {
                     console.error('Page content was not changed.');
                 } else {
-                    lib.setPageContent(pageTitle, newContent, console.error);
+                    wiki.setPageContent(pageTitle, newContent, console.error);
                 }
             }
         });

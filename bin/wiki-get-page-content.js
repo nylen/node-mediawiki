@@ -1,18 +1,20 @@
 #!/usr/bin/env node
 
-var lib = require('../lib');
+var MediaWiki = require('../lib'),
+    utils     = require('../lib/utils');
 
-var wiki      = process.argv[2],
+var wikiName  = process.argv[2],
     pageTitle = process.argv[3];
 
-if (!wiki || !pageTitle) {
-    lib.error(
-        'Usage: %s wiki-name-or-url page-title',
+if (!wikiName || !pageTitle) {
+    utils.fatalError(
+        'Usage: %s wikiName-name-or-url page-title',
         process.argv[1]);
 }
 
-lib.setWiki(wiki);
+var wiki = new MediaWiki(wikiName);
+utils.setDefaultHandlers(wiki);
 
-lib.getPageContent(pageTitle, function(data) {
+wiki.getPageContent(pageTitle, function(data) {
     process.stdout.write(data);
 });

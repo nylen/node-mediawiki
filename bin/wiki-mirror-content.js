@@ -1,23 +1,25 @@
 #!/usr/bin/env node
 
-var async  = require('async'),
-    events = require('events'),
-    fs     = require('fs-extra'),
-    lib    = require('../lib'),
-    path   = require('path');
+var async     = require('async'),
+    events    = require('events'),
+    fs        = require('fs-extra'),
+    MediaWiki = require('../lib'),
+    path      = require('path'),
+    utils     = require('../lib/utils');
 
 fs.jsonfile.spaces = 4;
 
-var wiki      = process.argv[2],
+var wikiName  = process.argv[2],
     mirrorDir = process.argv[3];
 
-if (!wiki || !mirrorDir) {
-    lib.error(
-        'Usage: %s wiki-name-or-url mirror-directory',
+if (!wikiName || !mirrorDir) {
+    utils.fatalError(
+        'Usage: %s wikiName-name-or-url mirror-directory',
         process.argv[1]);
 }
 
-lib.setWiki(wiki);
+var wiki = new MediaWiki(wikiName);
+utils.setDefaultHandlers(wiki);
 
 fs.mkdirpSync(mirrorDir);
 
@@ -27,8 +29,8 @@ var titleToFileMap = {},
     numPages = 0;
 
 function writePage(title, cb) {
-    lib.getPageContent(title, function(data) {
-        var filename = path.join(mirrorDir, lib.pageTitleToFilename(title));
+    wiki.getPageContent(title, function(data) {
+        var filename = path.join(mirrorDir, wiki.pageTitleToFilename(title));
         titleToFileMap[title] = filename;
 
         fs.writeFile(filename, data, function(err) {
@@ -49,7 +51,7 @@ var queue = async.queue(writePage, 10);
 
 events.EventEmitter.defaultMaxListeners = 50; // only works in Node >=v0.11.2
 
-lib.listPages(function(title) {
+wiki.listPages(function(title) {
     numTitles++;
     queue.push(title);
 }, function() {

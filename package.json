@@ -27,14 +27,12 @@
         "wiki-update-code-tags" : "bin/wiki-update-code-tags.js"
     },
     "dependencies" : {
-        "async"       : "~0.2.10",
-        "fs-extra"    : "~0.4.0",
-        "ini"         : "^1.2.1",
-        "pipette"     : "~0.9.3",
-        "qs"          : "~0.5.3",
-        "queue-async" : "~1.0.7",
-        "request"     : "~2.34.0",
-        "temp"        : "^0.8.1",
-        "underscore"  : "~1.4.4"
+        "async"         : "~0.2.10",
+        "concat-stream" : "^1.4.6",
+        "fs-extra"      : "~0.4.0",
+        "ini"           : "^1.2.1",
+        "request"       : "~2.34.0",
+        "temp"          : "^0.8.1",
+        "underscore"    : "~1.4.4"
     }
 }

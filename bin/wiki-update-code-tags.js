@@ -1,21 +1,23 @@
 #!/usr/bin/env node
 
-var async = require('async'),
-    lib   = require('../lib');
+var async     = require('async'),
+    MediaWiki = require('../lib'),
+    utils     = require('../lib/utils');
 
-var wiki       = process.argv[2],
+var wikiName   = process.argv[2],
     pageTitles = process.argv.slice(3);
 
-if (!wiki || !pageTitles.length) {
-    lib.error(
-        'Usage: %s wiki-name-or-url page-title [page-title [...]]',
+if (!wikiName || !pageTitles.length) {
+    utils.fatalError(
+        'Usage: %s wikiName-name-or-url page-title [page-title [...]]',
         process.argv[1]);
 }
 
-lib.setWiki(wiki);
+var wiki = new MediaWiki(wikiName);
+utils.setDefaultHandlers(wiki);
 
 async.eachSeries(pageTitles, function(title, cb) {
-    lib.getPageContent(title, function(oldContent) {
+    wiki.getPageContent(title, function(oldContent) {
         var arr = oldContent.split('`');
         var newContent = '';
         for (var i = 0; i < arr.length; i++) {
@@ -29,7 +31,7 @@ async.eachSeries(pageTitles, function(title, cb) {
             console.error('Page content was not changed.');
             cb();
         } else {
-            lib.setPageContent(title, newContent, function(data) {
+            wiki.setPageContent(title, newContent, function(data) {
                 console.log(data);
                 cb();
             });
