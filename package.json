@@ -1,7 +1,7 @@
 {
-    "name"        : "mediawiki-scripts",
+    "name"        : "node-mediawiki",
     "author"      : "James Nylen <jnylen@gmail.com>",
-    "description" : "Scripts for managing a MediaWiki instance.",
+    "description" : "MediaWiki API and some command-line wrapper scripts.",
     "version"     : "0.0.1",
     "repository"  : {
         "type" : "git",
