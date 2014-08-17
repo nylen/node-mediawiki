@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 
-var fs   = require('fs-extra'),
-    path = require('path'),
-    util = require('util'),
-    wiki = require('../lib/wiki');
+var async  = require('async'),
+    events = require('events'),
+    fs     = require('fs-extra'),
+    path   = require('path'),
+    util   = require('util'),
+    wiki   = require('../lib/wiki');
 
 fs.jsonfile.spaces = 4;
 
@@ -22,26 +24,38 @@ var titleToFileMap = {},
     gotAllTitles = false,
     numPages = 0;
 
-wiki.listPages(function(title) {
-    var filename = wiki.pageTitleToFilename(title);
-    titleToFileMap[title] = filename;
-    numTitles++;
+function writePage(title, cb) {
     wiki.getPageContent(title, function(data) {
-        filename = path.join(mirrorDir, filename);
-        fs.writeFileSync(filename, data);
-        console.log(util.format(
-            "Wrote page '%s' to file '%s'", title, filename));
-        numPages++;
+        var filename = path.join(mirrorDir, wiki.pageTitleToFilename(title));
+        titleToFileMap[title] = filename;
 
-        if (gotAllTitles && numTitles == numPages) {
-            var mapFilename = path.join(mirrorDir, 'wiki_pages.json');
-            fs.writeJSONFile(mapFilename, titleToFileMap, function(err) {
-                if (err) throw err;
-                console.log(util.format(
-                    "Wrote page titles and filenames to '%s'", mapFilename));
-            });
-        }
+        fs.writeFile(filename, data, function(err) {
+            if (err) {
+                cb(err);
+                return;
+            }
+
+            console.log(util.format(
+                "Wrote page '%s' to file '%s'", title, filename));
+            cb(null);
+        });
     });
+}
+
+var queue = async.queue(writePage, 10);
+
+events.EventEmitter.defaultMaxListeners = 50; // only works in Node >=v0.11.2
+
+wiki.listPages(function(title) {
+    numTitles++;
+    queue.push(title);
 }, function() {
-    gotAllTitles = true;
+    queue.drain = function() {
+        var mapFilename = path.join(mirrorDir, 'wiki_pages.json');
+        fs.writeJSONFile(mapFilename, titleToFileMap, function(err) {
+            if (err) throw err;
+            console.log(util.format(
+                "Wrote page titles and filenames to '%s'", mapFilename));
+        });
+    };
 });
