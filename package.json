@@ -26,6 +26,10 @@
         "wiki-set-page-content" : "bin/wiki-set-page-content.js",
         "wiki-update-code-tags" : "bin/wiki-update-code-tags.js"
     },
+    "devDependencies" : {
+        "mocha"  : "^1.21.4",
+        "should" : "^4.0.4"
+    },
     "dependencies" : {
         "async"         : "~0.2.10",
         "concat-stream" : "^1.4.6",
