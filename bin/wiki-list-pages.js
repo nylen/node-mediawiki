@@ -11,8 +11,7 @@ if (!wikiName) {
         process.argv[1]);
 }
 
-utils.readConfigFromFile();
-var wiki = new MediaWiki(wikiName);
+var wiki = new MediaWiki(utils.getConfig(wikiName));
 utils.setDefaultHandlers(wiki);
 
 wiki.listPages(function(title) {

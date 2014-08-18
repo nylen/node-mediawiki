@@ -13,8 +13,7 @@ if (!wikiName || !pageTitles.length) {
         process.argv[1]);
 }
 
-utils.readConfigFromFile();
-var wiki = new MediaWiki(wikiName);
+var wiki = new MediaWiki(utils.getConfig(wikiName));
 utils.setDefaultHandlers(wiki);
 
 async.eachSeries(pageTitles, function(title, cb) {
