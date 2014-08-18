@@ -26,6 +26,9 @@
         "wiki-set-page-content" : "bin/wiki-set-page-content.js",
         "wiki-update-code-tags" : "bin/wiki-update-code-tags.js"
     },
+    "scripts" : {
+        "test" : "node node_modules/.bin/mocha"
+    },
     "devDependencies" : {
         "mocha"  : "^1.21.4",
         "should" : "^4.0.4"
