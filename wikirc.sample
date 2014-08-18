@@ -13,5 +13,5 @@ baseUrl = http://commons.wikimedia.org/w/
 baseUrl = https://my.private/wiki/
 username = me
 password = mypassword
-[mywiki.request]
+[mywiki.requestOptions]
 rejectUnauthorized = false
