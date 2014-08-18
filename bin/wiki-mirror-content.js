@@ -18,6 +18,7 @@ if (!wikiName || !mirrorDir) {
         process.argv[1]);
 }
 
+utils.readConfigFromFile();
 var wiki = new MediaWiki(wikiName);
 utils.setDefaultHandlers(wiki);
 
