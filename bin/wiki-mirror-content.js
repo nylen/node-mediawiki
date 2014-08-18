@@ -31,7 +31,7 @@ var titleToFileMap = {},
 
 function writePage(title, cb) {
     wiki.getPageContent(title, function(data) {
-        var filename = path.join(mirrorDir, wiki.pageTitleToFilename(title));
+        var filename = path.join(mirrorDir, MediaWiki.pageTitleToFilename(title));
         titleToFileMap[title] = filename;
 
         fs.writeFile(filename, data, function(err) {

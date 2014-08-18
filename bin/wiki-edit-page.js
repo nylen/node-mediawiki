@@ -34,7 +34,7 @@ temp.mkdir('wiki-edit-', function(err, tmpDir) {
         throw err;
     }
 
-    var tmpFilename = path.join(tmpDir, wiki.pageTitleToFilename(pageTitle));
+    var tmpFilename = path.join(tmpDir, MediaWiki.pageTitleToFilename(pageTitle));
 
     wiki.getPageContent(pageTitle, function(oldContent) {
         fs.writeFileSync(tmpFilename, oldContent);
