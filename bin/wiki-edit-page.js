@@ -60,7 +60,7 @@ temp.mkdir('wiki-edit-', function(err, tmpDir) {
                     console.error('Editor exited with code: ' + code);
                 } else {
                     var newContent = fs.readFileSync(tmpFilename, 'utf8');
-                    if (oldContent == newContent) {
+                    if (oldContent.trim() == newContent.trim()) {
                         console.error('Page content was not changed.');
                     } else {
                         wiki.setPageContent(pageTitle, newContent, console.error);
