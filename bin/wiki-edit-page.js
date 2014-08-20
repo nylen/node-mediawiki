@@ -17,7 +17,7 @@ if (!wikiName || !pageTitle) {
 }
 
 var wiki = new MediaWiki(utils.getConfig(wikiName));
-utils.setDefaultHandlers(wiki);
+utils.setDefaultHandlers(wiki, 'message');
 
 var editor = process.env.EDITOR;
 
@@ -36,7 +36,31 @@ temp.mkdir('wiki-edit-', function(err, tmpDir) {
 
     var tmpFilename = path.join(tmpDir, MediaWiki.pageTitleToFilename(pageTitle));
 
+    wiki.on('error', function(err, data) {
+        if (data && data.statusCode == 404) {
+            cbPageContent(null, true);
+        } else {
+            utils.fatalError('Error: ' + (err.message || err));
+        }
+    });
+
     wiki.getPageContent(pageTitle, function(oldContent) {
+        cbPageContent(oldContent);
+    });
+
+    function cbPageContent(oldContent, pageNotFound) {
+        if (pageNotFound) {
+            oldContent = [
+                '<!--',
+                'PAGE: ' + pageTitle,
+                'This page does not exist yet.  Change this text to create it.',
+                '-->'
+            ].join('\n');
+        }
+
+        wiki.removeAllListeners('error');
+        utils.setDefaultHandlers(wiki, 'error');
+
         fs.writeFileSync(tmpFilename, oldContent);
 
         process.stdin.setRawMode(true);
@@ -77,5 +101,5 @@ temp.mkdir('wiki-edit-', function(err, tmpDir) {
         }).on('error', function(err) {
             done(err);
         });
-    });
+    }
 });
