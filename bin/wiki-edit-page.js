@@ -40,21 +40,42 @@ temp.mkdir('wiki-edit-', function(err, tmpDir) {
         fs.writeFileSync(tmpFilename, oldContent);
 
         process.stdin.setRawMode(true);
+
+        var done = function(err, code) {
+            process.stdin.setRawMode(false);
+
+            done = function() { };
+
+            if (err) {
+
+                if (err.code && err.code == 'ENOENT') {
+                    console.error('Editor `%s` not found.', editor);
+                } else {
+                    throw err;
+                }
+
+            } else {
+
+                if (code) {
+                    console.error('Editor exited with code: ' + code);
+                } else {
+                    var newContent = fs.readFileSync(tmpFilename, 'utf8');
+                    if (oldContent == newContent) {
+                        console.error('Page content was not changed.');
+                    } else {
+                        wiki.setPageContent(pageTitle, newContent, console.error);
+                    }
+                }
+
+            }
+        };
+
         cp.spawn(editor, [tmpFilename], {
             stdio : 'inherit'
         }).on('exit', function(code) {
-            process.stdin.setRawMode(false);
-
-            if (code) {
-                console.error('Editor exited with code: ' + code);
-            } else {
-                var newContent = fs.readFileSync(tmpFilename, 'utf8');
-                if (oldContent == newContent) {
-                    console.error('Page content was not changed.');
-                } else {
-                    wiki.setPageContent(pageTitle, newContent, console.error);
-                }
-            }
+            done(null, code);
+        }).on('error', function(err) {
+            done(err);
         });
     });
 });
