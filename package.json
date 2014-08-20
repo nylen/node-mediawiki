@@ -38,8 +38,8 @@
         "concat-stream" : "^1.4.6",
         "fs-extra"      : "~0.4.0",
         "ini"           : "^1.2.1",
+        "lodash"        : "^2.4.1",
         "request"       : "~2.34.0",
-        "temp"          : "^0.8.1",
-        "underscore"    : "~1.4.4"
+        "temp"          : "^0.8.1"
     }
 }
