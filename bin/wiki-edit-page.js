@@ -19,11 +19,12 @@ if (!wikiName || !pageTitle) {
 var wiki = new MediaWiki(utils.getConfig(wikiName));
 utils.setDefaultHandlers(wiki);
 
-var editor = wiki.config.editor || process.env.EDITOR;
+var editor = process.env.EDITOR;
 
 if (!editor) {
-    utils.fatalError(
-        'No external editor defined.  Set one in the config file or via $EDITOR.');
+    editor = 'editor';
+    console.error(
+        'No external editor defined.  Trying `editor` - set one via $EDITOR.');
 }
 
 temp.track();
