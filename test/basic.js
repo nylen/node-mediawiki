@@ -6,6 +6,10 @@ function runTests(desc, endpoint, matchAfterEdit, messages) {
     describe(desc, function() {
         var wiki;
 
+        function testWikiMessages() {
+            wiki.messages.should.eql(endpoint.username ? ['Logging in...', 'Logged in'] : []);
+        }
+
         before(function() {
             wiki = lib.newMediaWiki(endpoint);
         });
@@ -15,7 +19,7 @@ function runTests(desc, endpoint, matchAfterEdit, messages) {
             wiki.getPageContent(lib.pages.user, function(err, body) {
                 should.not.exist(err);
                 body.should.match(/Test user for \[.* <code>node-mediawiki<\/code> project\]/);
-                wiki.messages.should.eql(endpoint.username ? ['Logging in...', 'Logged in'] : []);
+                testWikiMessages();
                 done();
             });
         });
@@ -42,7 +46,7 @@ function runTests(desc, endpoint, matchAfterEdit, messages) {
                     wiki.getPageContent(lib.pages.sandbox, function(err, body) {
                         should.not.exist(err);
                         body.should.match(match);
-                        wiki.messages.should.eql(endpoint.username ? ['Logging in...', 'Logged in'] : []);
+                        testWikiMessages();
                         done();
                     });
                 });
@@ -57,7 +61,7 @@ function runTests(desc, endpoint, matchAfterEdit, messages) {
                 err.data.should.have.property('body');
                 err.data.body.should.equal('');
                 should.not.exist(body);
-                wiki.messages.should.eql(endpoint.username ? ['Logging in...', 'Logged in'] : []);
+                testWikiMessages();
                 done();
             });
         });
