@@ -16,12 +16,18 @@ if (!wikiName || !pageTitle) {
         process.argv[1]);
 }
 
-var wiki = new MediaWiki(utils.getConfig(wikiName));
-utils.setDefaultHandlers(wiki);
+var wiki = utils.createWikiFromConfig(wikiName);
 
 function setPageContent(text) {
     wiki.setPageContent(pageTitle, text,
-        'Edited with ' + MediaWiki.userAgent, console.error);
+        'Edited with ' + MediaWiki.userAgent,
+        function(err, result) {
+            if (err) {
+                utils.fatalError(err);
+            } else {
+                console.error(result);
+            }
+        });
 }
 
 if (fn) {

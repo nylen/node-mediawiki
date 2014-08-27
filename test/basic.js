@@ -12,7 +12,8 @@ function runTests(desc, endpoint, matchAfterEdit, messages) {
 
         it('should get page content', function(done) {
             wiki.messages.should.eql([]);
-            wiki.getPageContent(lib.pages.user, function(body) {
+            wiki.getPageContent(lib.pages.user, function(err, body) {
+                should.not.exist(err);
                 body.should.match(/Test user for \[.* <code>node-mediawiki<\/code> project\]/);
                 wiki.messages.should.eql(endpoint.username ? ['Logging in...', 'Logged in'] : []);
                 done();
@@ -22,7 +23,8 @@ function runTests(desc, endpoint, matchAfterEdit, messages) {
         it('should set page content', function(done) {
             this.timeout(10000);
 
-            wiki.getPageContent(lib.pages.sandbox, function(body) {
+            wiki.getPageContent(lib.pages.sandbox, function(err, body) {
+                should.not.exist(err);
                 body.should.match(/{{User sandbox}}/);
 
                 var rand  = lib.randomBytes(),
@@ -31,12 +33,14 @@ function runTests(desc, endpoint, matchAfterEdit, messages) {
 
                 wiki.setPageContent(lib.pages.sandbox, body + edit, {
                     ignoreEditConflicts : true
-                }, function(result) {
+                }, function(err, result) {
+                    should.not.exist(err);
                     result.should.have.property('edit');
                     result.edit.should.have.property('result', 'Success');
                     result.edit.should.have.property('title' , lib.pages.sandbox);
 
-                    wiki.getPageContent(lib.pages.sandbox, function(body) {
+                    wiki.getPageContent(lib.pages.sandbox, function(err, body) {
+                        should.not.exist(err);
                         body.should.match(match);
                         wiki.messages.should.eql(endpoint.username ? ['Logging in...', 'Logged in'] : []);
                         done();
@@ -48,16 +52,13 @@ function runTests(desc, endpoint, matchAfterEdit, messages) {
         it('should fail to get non-existent pages', function(done) {
             var rand = lib.randomBytes();
 
-            wiki = lib.newMediaWiki(endpoint, function(err, data) {
+            wiki.getPageContent(rand, function(err, body) {
                 err.message.should.equal('HTTP 404 Not Found');
-                data.should.have.property('body');
-                data.body.should.equal('');
+                err.data.should.have.property('body');
+                err.data.body.should.equal('');
+                should.not.exist(body);
                 wiki.messages.should.eql(endpoint.username ? ['Logging in...', 'Logged in'] : []);
                 done();
-            });
-
-            wiki.getPageContent(rand, function(body) {
-                throw new Error('This callback should never be called');
             });
         });
     });

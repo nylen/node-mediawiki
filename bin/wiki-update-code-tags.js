@@ -13,11 +13,14 @@ if (!wikiName || !pageTitles.length) {
         process.argv[1]);
 }
 
-var wiki = new MediaWiki(utils.getConfig(wikiName));
-utils.setDefaultHandlers(wiki);
+var wiki = utils.createWikiFromConfig(wikiName);
 
 async.eachSeries(pageTitles, function(title, cb) {
-    wiki.getPageContent(title, function(oldContent) {
+    wiki.getPageContent(title, function(err, oldContent) {
+        if (err) {
+            utils.fatalError(err);
+        }
+
         var arr = oldContent.split('`');
         var newContent = '';
         for (var i = 0; i < arr.length; i++) {
@@ -31,9 +34,13 @@ async.eachSeries(pageTitles, function(title, cb) {
             console.error('Page content was not changed.');
             cb();
         } else {
-            wiki.setPageContent(title, newContent, function(data) {
-                console.log(data);
-                cb();
+            wiki.setPageContent(title, newContent, function(err, data) {
+                if (err) {
+                    utils.fatalError(err);
+                } else {
+                    console.log(data);
+                    cb();
+                }
             });
         }
     });

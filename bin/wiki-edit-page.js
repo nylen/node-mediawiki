@@ -16,8 +16,7 @@ if (!wikiName || !pageTitle) {
         process.argv[1]);
 }
 
-var wiki = new MediaWiki(utils.getConfig(wikiName));
-utils.setDefaultHandlers(wiki, 'message');
+var wiki = utils.createWikiFromConfig(wikiName);
 
 var editor = process.env.EDITOR;
 
@@ -36,30 +35,17 @@ temp.mkdir('wiki-edit-', function(err, tmpDir) {
 
     var tmpFilename = path.join(tmpDir, MediaWiki.pageTitleToFilename(pageTitle));
 
-    wiki.on('error', function(err, data) {
-        if (data && data.statusCode == 404) {
-            cbPageContent(null, true);
-        } else {
-            utils.fatalError('Error: ' + (err.message || err));
-        }
-    });
-
-    wiki.getPageContent(pageTitle, function(oldContent) {
-        cbPageContent(oldContent);
-    });
-
-    function cbPageContent(oldContent, pageNotFound) {
-        if (pageNotFound) {
+    wiki.getPageContent(pageTitle, function(err, oldContent) {
+        if (err && err.data && err.statusCode == 404) {
             oldContent = [
                 '<!--',
                 'PAGE: ' + pageTitle,
                 'This page does not exist yet.  Change this text to create it.',
                 '-->'
             ].join('\n');
+        } else if (err) {
+            utils.fatalError(err);
         }
-
-        wiki.removeAllListeners('error');
-        utils.setDefaultHandlers(wiki, 'error');
 
         fs.writeFileSync(tmpFilename, oldContent);
 
@@ -87,7 +73,13 @@ temp.mkdir('wiki-edit-', function(err, tmpDir) {
                     if (oldContent.trim() == newContent.trim()) {
                         console.error('Page content was not changed.');
                     } else {
-                        wiki.setPageContent(pageTitle, newContent, console.error);
+                        wiki.setPageContent(pageTitle, newContent, function(err, result) {
+                            if (err) {
+                                utils.fatalError(err);
+                            } else {
+                                console.error(result);
+                            }
+                        });
                     }
                 }
 
@@ -101,5 +93,5 @@ temp.mkdir('wiki-edit-', function(err, tmpDir) {
         }).on('error', function(err) {
             done(err);
         });
-    }
+    });
 });

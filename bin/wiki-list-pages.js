@@ -11,9 +11,12 @@ if (!wikiName) {
         process.argv[1]);
 }
 
-var wiki = new MediaWiki(utils.getConfig(wikiName));
-utils.setDefaultHandlers(wiki);
+var wiki = utils.createWikiFromConfig(wikiName);
 
-wiki.listPages(function(title) {
-    console.log(title);
+wiki.listPages(function(err, title) {
+    if (err) {
+        utils.fatalError(err);
+    } else {
+        console.log(title);
+    }
 });

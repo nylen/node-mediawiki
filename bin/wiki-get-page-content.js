@@ -12,9 +12,12 @@ if (!wikiName || !pageTitle) {
         process.argv[1]);
 }
 
-var wiki = new MediaWiki(utils.getConfig(wikiName));
-utils.setDefaultHandlers(wiki);
+var wiki = utils.createWikiFromConfig(wikiName);
 
-wiki.getPageContent(pageTitle, function(data) {
-    process.stdout.write(data);
+wiki.getPageContent(pageTitle, function(err, data) {
+    if (err) {
+        utils.fatalError(err);
+    } else {
+        process.stdout.write(data);
+    }
 });
