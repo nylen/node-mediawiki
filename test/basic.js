@@ -53,6 +53,30 @@ function runTests(desc, endpoint, matchAfterEdit, messages) {
             });
         });
 
+        it('should list pages', function(done) {
+            var pageList = [];
+            wiki._query('allpages', {
+                list    : 'allpages',
+                apfrom  : 'Baz',
+                aplimit : 5,
+                onlyOneQuery : true
+            }, function(err, data) {
+                should.not.exist(err);
+                pageList.push(data);
+            }, function(err) {
+                should.not.exist(err);
+                pageList.should.eql([
+                    { pageid: 8914673 , ns: 0, title: 'Baz' },
+                    { pageid: 19888154, ns: 0, title: 'Baz\'s Culture Clash' },
+                    { pageid: 20112954, ns: 0, title: 'Baz, Albania' },
+                    { pageid: 21957451, ns: 0, title: 'Baz, Hakkari' },
+                    { pageid: 8455074 , ns: 0, title: 'Baz, Iran' }
+                ]);
+                testWikiMessages();
+                done();
+            });
+        });
+
         it('should fail to get non-existent pages', function(done) {
             var rand = lib.randomBytes();
 
