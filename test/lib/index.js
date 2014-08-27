@@ -25,9 +25,9 @@ exports.newMediaWiki = function(config, onError) {
 
     wiki.on('error', onError);
 
-    wiki._messages = [];
+    wiki.messages = [];
     wiki.on('message', function(msg) {
-        wiki._messages.push(msg);
+        wiki.messages.push(msg);
     });
 
     return wiki;
