@@ -21,14 +21,7 @@ async.eachSeries(pageTitles, function(title, cb) {
             utils.fatalError(err);
         }
 
-        var arr = oldContent.split('`');
-        var newContent = '';
-        for (var i = 0; i < arr.length; i++) {
-            if (i > 0) {
-                newContent += (i % 2 ? '<code>' : '</code>');
-            }
-            newContent += arr[i];
-        }
+        var newContent = utils.wikifyCodeTags(oldContent);
 
         if (oldContent == newContent) {
             console.error('Page content was not changed.');
