@@ -14,7 +14,7 @@ var wikiName  = process.argv[2],
 
 if (!wikiName || !mirrorDir) {
     utils.fatalError(
-        'Usage: %s wikiName-name-or-url mirror-directory',
+        'Usage: %s wiki-name-or-url mirror-directory',
         process.argv[1]);
 }
 

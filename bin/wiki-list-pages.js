@@ -7,7 +7,7 @@ var wikiName = process.argv[2];
 
 if (!wikiName) {
     utils.fatalError(
-        'Usage: %s wikiName-name-or-url',
+        'Usage: %s wiki-name-or-url',
         process.argv[1]);
 }
 

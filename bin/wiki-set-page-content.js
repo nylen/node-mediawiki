@@ -12,7 +12,7 @@ var wikiName  = process.argv[2],
 
 if (!wikiName || !pageTitle) {
     utils.fatalError(
-        'Usage: %s wikiName-name-or-url page-title [filename]',
+        'Usage: %s wiki-name-or-url page-title [filename]',
         process.argv[1]);
 }
 
