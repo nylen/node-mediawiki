@@ -19,15 +19,13 @@ if (!wikiName || !pageTitle) {
 var wiki = utils.createWikiFromConfig(wikiName);
 
 function setPageContent(text) {
-    wiki.setPageContent(pageTitle, text,
-        'Edited with ' + MediaWiki.userAgent,
-        function(err, result) {
-            if (err) {
-                utils.fatalError(err);
-            } else {
-                console.error(result);
-            }
-        });
+    wiki.setPageContent(pageTitle, text, function(err, result) {
+        if (err) {
+            utils.fatalError(err);
+        } else {
+            console.error(result);
+        }
+    });
 }
 
 if (fn) {
