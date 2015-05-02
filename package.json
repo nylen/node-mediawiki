@@ -2,7 +2,7 @@
     "name"        : "node-mediawiki",
     "author"      : "James Nylen <jnylen@gmail.com>",
     "description" : "MediaWiki API and some command-line wrapper scripts.",
-    "version"     : "0.0.1",
+    "version"     : "0.0.2",
     "repository"  : {
         "type" : "git",
         "url"  : "https://github.com/nylen/node-mediawiki"
