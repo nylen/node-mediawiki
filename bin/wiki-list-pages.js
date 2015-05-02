@@ -13,7 +13,7 @@ if (!wikiName) {
 
 var wiki = utils.createWikiFromConfig(wikiName);
 
-wiki.listPages(function(err, title) {
+wiki.listPages(null, function(err, title) {
     if (err) {
         utils.fatalError(err);
     } else {
