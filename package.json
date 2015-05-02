@@ -19,12 +19,13 @@
     ],
     "main" : "lib/index.js",
     "bin"  : {
-        "wiki-edit-page"        : "bin/wiki-edit-page.js",
-        "wiki-get-page-content" : "bin/wiki-get-page-content.js",
-        "wiki-list-pages"       : "bin/wiki-list-pages.js",
-        "wiki-mirror-content"   : "bin/wiki-mirror-content.js",
-        "wiki-set-page-content" : "bin/wiki-set-page-content.js",
-        "wiki-update-code-tags" : "bin/wiki-update-code-tags.js"
+        "wiki-edit-page"         : "bin/wiki-edit-page.js",
+        "wiki-get-page-content"  : "bin/wiki-get-page-content.js",
+        "wiki-list-pages"        : "bin/wiki-list-pages.js",
+        "wiki-list-random-pages" : "bin/wiki-list-random-pages.js",
+        "wiki-mirror-content"    : "bin/wiki-mirror-content.js",
+        "wiki-set-page-content"  : "bin/wiki-set-page-content.js",
+        "wiki-update-code-tags"  : "bin/wiki-update-code-tags.js"
     },
     "scripts" : {
         "test" : "node node_modules/.bin/mocha"
