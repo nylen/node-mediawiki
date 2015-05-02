@@ -15,6 +15,8 @@ function runTests(desc, endpoint, matchAfterEdit, messages) {
         });
 
         it('should get page content', function(done) {
+            this.timeout(5000);
+
             wiki.messages.should.eql([]);
             wiki.getPageContent(lib.pages.user, function(err, body) {
                 should.not.exist(err);
