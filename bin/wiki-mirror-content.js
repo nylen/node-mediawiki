@@ -54,7 +54,8 @@ var queue = async.queue(writePage, 10);
 
 events.EventEmitter.defaultMaxListeners = 50; // only works in Node >=v0.11.2
 
-wiki.listPages(function(err, title) {
+// TODO make first parameter optional
+wiki.listPages(null, function(err, title) {
     if (err) {
         utils.fatalError(err);
     }
