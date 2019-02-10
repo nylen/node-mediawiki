@@ -28,10 +28,25 @@ var titleToFileMap = {},
     gotAllTitles = false,
     numPages = 0;
 
+function pageError(title, step, err) {
+    console.error(
+        'Step %s for page "%s" FAILED: %s',
+        step, title, err.message
+    );
+
+    titleToFileMap[title] = {
+        error : err.message,
+        step  : step,
+        data  : err.data
+    };
+}
+
 function writePage(title, cb) {
     wiki.getPageContent(title, function(err, data) {
         if (err) {
-            utils.fatalError(err);
+            pageError(title, 'getPageContent', err);
+            cb(null);
+            return;
         }
 
         var filename = path.join(
@@ -45,8 +60,7 @@ function writePage(title, cb) {
 
         fs.writeFile(filename, data, function(err) {
             if (err) {
-                cb(err);
-                return;
+                utils.fatalError(err);
             }
 
             console.log(
@@ -55,7 +69,8 @@ function writePage(title, cb) {
 
             wiki.getParsedPage(title, function(err, data) {
                 if (err) {
-                    cb(err);
+                    pageError(title, 'getParsedPage', err);
+                    cb(null);
                     return;
                 }
 
@@ -70,8 +85,7 @@ function writePage(title, cb) {
                 }
                 fs.writeFile(htmlFilename, data, function(err) {
                     if (err) {
-                        cb(err);
-                        return;
+                        utils.fatalError(err);
                     }
 
                     console.log(
