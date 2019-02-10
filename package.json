@@ -1,46 +1,46 @@
 {
-    "name"        : "node-mediawiki",
-    "author"      : "James Nylen <jnylen@gmail.com>",
-    "description" : "MediaWiki API and some command-line wrapper scripts.",
-    "version"     : "0.0.2",
-    "repository"  : {
-        "type" : "git",
-        "url"  : "https://github.com/nylen/node-mediawiki"
+    "name": "node-mediawiki",
+    "author": "James Nylen <jnylen@gmail.com>",
+    "description": "MediaWiki API and some command-line wrapper scripts.",
+    "version": "0.0.2",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/nylen/node-mediawiki"
     },
-    "bugs" : {
-        "url" : "https://github.com/nylen/node-mediawiki/issues"
+    "bugs": {
+        "url": "https://github.com/nylen/node-mediawiki/issues"
     },
-    "license"  : "MIT",
-    "keywords" : [
+    "license": "MIT",
+    "keywords": [
         "mediawiki",
         "wiki",
         "api",
         "wikipedia"
     ],
-    "main" : "lib/index.js",
-    "bin"  : {
-        "wiki-edit-page"         : "bin/wiki-edit-page.js",
-        "wiki-get-page-content"  : "bin/wiki-get-page-content.js",
-        "wiki-list-pages"        : "bin/wiki-list-pages.js",
-        "wiki-list-random-pages" : "bin/wiki-list-random-pages.js",
-        "wiki-mirror-content"    : "bin/wiki-mirror-content.js",
-        "wiki-set-page-content"  : "bin/wiki-set-page-content.js",
-        "wiki-update-code-tags"  : "bin/wiki-update-code-tags.js"
+    "main": "lib/index.js",
+    "bin": {
+        "wiki-edit-page": "bin/wiki-edit-page.js",
+        "wiki-get-page-content": "bin/wiki-get-page-content.js",
+        "wiki-list-pages": "bin/wiki-list-pages.js",
+        "wiki-list-random-pages": "bin/wiki-list-random-pages.js",
+        "wiki-mirror-content": "bin/wiki-mirror-content.js",
+        "wiki-set-page-content": "bin/wiki-set-page-content.js",
+        "wiki-update-code-tags": "bin/wiki-update-code-tags.js"
     },
-    "scripts" : {
-        "test" : "node node_modules/.bin/mocha"
+    "scripts": {
+        "test": "node node_modules/.bin/mocha"
     },
-    "devDependencies" : {
-        "mocha"  : "~1.21.4",
-        "should" : "~4.0.4"
+    "devDependencies": {
+        "mocha": "^5.2.0",
+        "should": "~4.0.4"
     },
-    "dependencies" : {
-        "async"         : "~0.2.10",
-        "concat-stream" : "~1.4.6",
-        "fs-extra"      : "~0.4.0",
-        "ini"           : "~1.2.1",
-        "lodash"        : "~2.4.1",
-        "request"       : "~2.34.0",
-        "temp"          : "~0.8.1"
+    "dependencies": {
+        "async": "~0.2.10",
+        "concat-stream": "~1.4.6",
+        "fs-extra": "~0.4.0",
+        "ini": "~1.2.1",
+        "lodash": "^4.17.11",
+        "request": "^2.88.0",
+        "temp": "~0.8.1"
     }
 }

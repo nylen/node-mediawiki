@@ -85,7 +85,7 @@ function runTests(desc, endpoint, matchAfterEdit, messages) {
             wiki.getPageContent(rand, function(err, body) {
                 err.message.should.equal('HTTP 404 Not Found');
                 err.data.should.have.property('body');
-                err.data.body.should.equal('');
+                err.data.body.should.match(/<h1>Error<\/h1>/);
                 should.not.exist(body);
                 testWikiMessages();
                 done();

@@ -1,7 +1,7 @@
 var crypto    = require('crypto'),
     MediaWiki = require('../../lib');
 
-exports.endpoint = 'http://en.wikipedia.org/w/';
+exports.endpoint = 'https://en.wikipedia.org/w/';
 
 exports.endpointWithLogin = {
     baseUrl  : exports.endpoint,
