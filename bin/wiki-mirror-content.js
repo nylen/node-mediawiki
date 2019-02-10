@@ -9,12 +9,13 @@ var async     = require('async'),
 
 fs.jsonfile.spaces = 4;
 
-var wikiName  = process.argv[2],
-    mirrorDir = process.argv[3];
+var wikiName     = process.argv[2],
+    mirrorDir    = process.argv[3],
+    allowSubdirs = (process.argv[4] === '--subdirs');
 
 if (!wikiName || !mirrorDir) {
     utils.fatalError(
-        'Usage: %s wiki-name-or-url mirror-directory',
+        'Usage: %s wiki-name-or-url mirror-directory [--subdirs]',
         process.argv[1]);
 }
 
@@ -33,7 +34,13 @@ function writePage(title, cb) {
             utils.fatalError(err);
         }
 
-        var filename = path.join(mirrorDir, MediaWiki.pageTitleToFilename(title));
+        var filename = path.join(
+            mirrorDir,
+            MediaWiki.pageTitleToFilename(title, allowSubdirs)
+        );
+        if (/\//.test(title) && allowSubdirs) {
+            fs.mkdirpSync(path.dirname(filename));
+        }
         titleToFileMap[title] = filename;
 
         fs.writeFile(filename, data, function(err) {
