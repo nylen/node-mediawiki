@@ -118,7 +118,13 @@ wiki.listPages(null, function(err, title) {
 
     queue.drain = function() {
         var mapFilename = path.join(mirrorDir, 'wiki_pages.json');
-        fs.writeJSONFile(mapFilename, titleToFileMap, function(err) {
+        var titleToFileMapSorted = {};
+        var titles = Object.keys(titleToFileMap);
+        titles.sort();
+        titles.forEach(function(title) {
+            titleToFileMapSorted[title] = titleToFileMap[title];
+        });
+        fs.writeJSONFile(mapFilename, titleToFileMapSorted, function(err) {
             if (err) throw err;
             console.log(
                 "Wrote page titles and filenames to '%s'",
