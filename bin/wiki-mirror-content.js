@@ -50,9 +50,37 @@ function writePage(title, cb) {
             }
 
             console.log(
-                "Wrote page '%s' to file '%s'",
+                "Wrote page '%s' to file '%s' (RAW)",
                 title, filename);
-            cb(null);
+
+            wiki.getParsedPage(title, function(err, data) {
+                if (err) {
+                    cb(err);
+                    return;
+                }
+
+                var htmlFilename = filename.replace(/\.wiki$/, '.html');
+                if (data && data.parse && data.parse.text && data.parse.text['*']) {
+                    data = data.parse.text['*'];
+                } else {
+                    data = JSON.stringify({
+                        error : 'HTML data not found',
+                        data  : data
+                    });
+                }
+                fs.writeFile(htmlFilename, data, function(err) {
+                    if (err) {
+                        cb(err);
+                        return;
+                    }
+
+                    console.log(
+                        "Wrote page '%s' to file '%s' (RENDERED)",
+                        title, htmlFilename);
+
+                    cb(null);
+                });
+            });
         });
     });
 }
