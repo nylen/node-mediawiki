@@ -99,9 +99,11 @@ function writePage(title, cb) {
     });
 }
 
-var queue = async.queue(writePage, 10);
+var concurrency = 1;
 
-events.EventEmitter.defaultMaxListeners = 50; // only works in Node >=v0.11.2
+var queue = async.queue(writePage, concurrency);
+
+events.EventEmitter.defaultMaxListeners = 10 * concurrency;
 
 // TODO make first parameter optional
 wiki.listPages(null, function(err, title) {
